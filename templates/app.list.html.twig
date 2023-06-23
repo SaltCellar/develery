@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container-md d-flex justify-content-center">
+        <div id="contact_card" class="card" style="width: 100%; margin-top: 100px">
+            <div class="card-body">
+                <div class="d-flex justify-content-center">
+                    <h5 class="card-title">Contact List</h5>
+                </div>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Message</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for contact in contacts %}
+                            <tr class="contact-table-row">
+                                <td>{{ contact.name }}</td>
+                                <td data-filter="email" id="email">{{ contact.email }}</td>
+                                <td>{{ contact.comment }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <script>
+                    document.querySelectorAll('[data-filter="email"]').forEach($col => {
+                        $col.addEventListener('click', ()=>{
+                            let email = $col.innerHTML.trim();
+
+                            if ('URLSearchParams' in window) {
+                                let searchParams = new URLSearchParams(window.location.search);
+                                searchParams.set("filter[email]", email);
+                                window.location.search = searchParams.toString();
+                            }
+                        });
+                    });
+                </script>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
